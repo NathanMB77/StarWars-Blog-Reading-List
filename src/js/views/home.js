@@ -1,15 +1,50 @@
-import React from "react";
-import rigoImage from "../../img/rigo-baby.jpg";
+import React, { useState, useEffect, useContext }  from "react";
 import "../../styles/home.css";
 
-export const Home = () => (
-	<div className="text-center mt-5">
-		<h1>Hello Rigo!</h1>
-		<p>
-			<img src={rigoImage} />
-		</p>
-		<a href="#" className="btn btn-success">
-			If you see this green button, bootstrap is working
-		</a>
-	</div>
-);
+import { Context } from "../store/appContext";
+
+import { PlanetList } from "../component/planetList.jsx";
+import { PeopleList } from "../component/peopleList.jsx";
+import { VehicleList } from "../component/vehicleList.jsx";
+import { FavoriteList } from "../component/favoriteList.jsx";
+
+export const Home = () => {
+	const { store, actions } = useContext(Context);
+
+	return (
+		<div className='container-fluid'>
+			{store.planets && (
+			<div>
+				<div className='row justify-content-center'>
+					<div className='col-10'>
+						<div className='row d-flex justify-content-between py-3'>
+							<div className='col-3'>
+								<h2>Star Wars</h2>
+							</div>
+							<div className='col-3 d-flex justify-content-end'>
+								<FavoriteList/>
+							</div>
+						</div>
+						<div className='row'>
+							<div className='col-12 scrollmenu'>
+								<PlanetList />
+							</div>
+						</div>
+						<div className='row mt-3'>
+							<div className='col-12 scrollmenu'>
+								<PeopleList />
+							</div>
+						</div>
+						<div className='row mt-3'>
+							<div className='col-12 scrollmenu'>
+								<VehicleList />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			)}
+			{!store.planets && <p>Loading. please wait</p>}
+		</div>
+	)
+};
